@@ -1,0 +1,113 @@
+Question 8 : Entrée 4, 2, 1, -2
+✅ Réponse correcte : E - 4
+
+Explication détaillée :
+Boucle jusqu’à a0 < s1, accumulation dans s0.
+Résultat final : 4.
+✅ Réponse correcte : E.
+
+Question 9 : Entrée 1, 2, 4, -4
+✅ Réponse correcte : H - 7
+
+Explication détaillée :
+Boucle modifiant s0, accumulation finale 7.
+✅ Bonne réponse : H.
+
+Question 10 : Instruction remplaçant les deux blez et ble ?
+✅ Réponse correcte : E - blez a0, s1, bbb
+
+Explication détaillée :
+blez couvre déjà les deux conditions initiales.
+✅ Bonne réponse : E.
+
+5. Modes d’adressage
+Question 11 : Valeur de s0
+✅ Réponse correcte : N - 0x1001000000000000
+
+Explication :
+L’instruction la s0, foo charge l’adresse mémoire de foo dans s0.
+Dans l’architecture RISC-V 64 bits, les adresses sont sur 64 bits.
+L’étiquette foo est définie à 0x10010000 en mémoire.
+Comme s0 stocke une adresse mémoire, la valeur complète est 0x1001000000000000 en 64 bits.
+✅ Conclusion : la bonne réponse est N.
+
+Question 12 : Valeur de s1
+✅ Réponse correcte : G - 0x0000000010010000
+
+Explication :
+L’instruction lw s1, 0(s0) charge un mot (4 octets) depuis l’adresse stockée dans s0.
+s0 contient 0x10010000, donc on charge la valeur stockée à cette adresse.
+Le contenu mémoire à 0x10010000 est 0x0000000010010000 (chargé sur 64 bits en RISC-V 64).
+✅ Conclusion : la bonne réponse est G.
+
+Question 13 : Valeur de s2
+✅ Réponse correcte : D - 0x0000000000000080
+
+Explication :
+L’instruction li s2, bar charge la valeur immédiate bar.
+bar est défini comme 0x80 dans .eqv bar, 0x80.
+s2 stocke directement cette valeur en 64 bits.
+✅ Conclusion : la bonne réponse est D.
+
+Question 14 : Valeur de s3
+✅ Réponse correcte : D - 0x0000000000000080
+
+Explication :
+L’instruction lb s3, 0(s0) charge 1 octet depuis l’adresse s0.
+L’adresse s0 pointe sur foo, où la première valeur est bar = 0x80.
+lb charge cette valeur en signant l’extension en 64 bits, donc s3 = 0x80.
+✅ Conclusion : la bonne réponse est D.
+
+Question 15 : Valeur de s4
+✅ Réponse correcte : O - 0x1001000800000000
+
+Explication :
+L’instruction ld s4, 8(s0) charge 64 bits depuis l’adresse s0 + 8.
+s0 stocke l’adresse de foo (0x10010000), donc 8(s0) = baz.
+baz contient l’adresse mémoire de foo : 0x10010000.
+En 64 bits, cela devient 0x1001000800000000.
+✅ Conclusion : la bonne réponse est O.
+
+6. Programmation
+Question 16 : TODO1 (Initialisation du maximum)
+✅ Réponse correcte : O - lw s1, 0(s0)
+
+Explication :
+s1 doit contenir la première valeur du tableau tab, qui est stocké à s0.
+L’instruction lw s1, 0(s0) charge cette première valeur en mémoire.
+✅ Conclusion : la bonne réponse est O.
+
+Question 17 : TODO2 (Condition de boucle sur s3)
+✅ Réponse correcte : D - bge s3, t0, fin
+
+Explication :
+s3 est l’index du tableau et t0 = tablen.
+bge s3, t0, fin permet de sortir de la boucle quand s3 atteint la taille du tableau.
+✅ Conclusion : la bonne réponse est D.
+
+Question 18 : TODO3 (Accès à l’élément courant du tableau)
+✅ Réponse correcte : A - add s0, s4, s0 + lw s4, 0(s0)
+
+Explication :
+s4 doit contenir l’élément actuel du tableau.
+Calcul de l’adresse de l’élément courant avec add s0, s4, s0.
+Chargement de l’élément avec lw s4, 0(s0).
+✅ Conclusion : la bonne réponse est A.
+
+Question 19 : TODO4 (Mise à jour du maximum et du compteur)
+✅ Réponse correcte : D - mv s1, s4 + li s2, 1
+
+Explication :
+Si s4 (élément actuel) est supérieur à s1 (max actuel), on met à jour le max :
+mv s1, s4 met s4 dans s1.
+On réinitialise le compteur s2 à 1, car un nouveau max a été trouvé.
+✅ Conclusion : la bonne réponse est D.
+
+Question 20 : TODO5 (Incrémentation de s3 et boucle)
+✅ Réponse correcte : M - addi s3, s3, 1 + j loop
+
+Explication :
+s3 est l’index parcourant le tableau.
+addi s3, s3, 1 incrémente s3.
+j loop fait revenir au début de la boucle.
+✅ Conclusion : la bonne réponse est M.

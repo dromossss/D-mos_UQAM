@@ -1,0 +1,320 @@
+1. Structure et fonctionnement d’un ordinateur
+Question 1 : Quelle est l’alternative classique à l’architecture de type RISC ?
+Réponse : D - Complex Instruction Set Computer (CISC)
+Explication :
+L’architecture RISC (Reduced Instruction Set Computer) utilise un jeu d’instructions simplifié et optimisé pour la rapidité d’exécution. Son alternative classique est CISC (Complex Instruction Set Computer), qui privilégie un jeu d’instructions plus riche et sophistiqué, permettant parfois d'exécuter des tâches complexes en une seule instruction.
+
+***************************************
+
+2. Arithmétique des ordinateurs
+Question 2 : Représentation du nombre 33(16) (hexadécimal).
+Réponses correctes : C - 110011(2) et F et H
+Explication :
+
+33(16) en binaire :
+3 = 0011, 3 = 0011 ⟶ 00110011(2) (ou simplement 110011(2) sans zéros non significatifs).
+F (51(10)) :
+
+33(16) en décimal est 51(10).
+Donc F est correcte, j’avais fait une erreur en ne la sélectionnant pas.
+H (63(8)) :
+
+33(16) en octal :
+33(16) = 3×16 + 3 = 51(10).
+En octal : 51(10) = 63(8).
+H est correcte aussi.
+
+
+***************************************
+
+
+Question 3 : Instructions RISC-V qui positionnent s0 à 0x123.
+Réponses correctes : B et E
+Explication :
+
+B. li s0, 0x146 + addi s0, s0, -35
+0x146 = 326 (hexa vers deci), et 326 - 35 = 291  = 0x123. (deci vers hexa)
+
+E. li s0, 0x1230 + srli s0, s0, 4
+Décalage à droite (srli) de 4 bits divise par 16 :
+0x1230 >> 4 = 0x123.
+E. li s0, 0x1230 + srli s0, s0, 4
+
+0x1230 = 4656 en décimal.
+srli s0, s0, 4 (décalage de 4 bits à droite) :
+4656 / 16 = 291 (0x123).
+
+C. li s0, 0x1FE + xori s0, s0, 0xDD
+
+0x1FE = 510.
+XOR avec 0xDD (221) :
+510 XOR 221 = ???? (pas 291, donc incorrect).
+Incorrect.
+
+***************************************
+
+Question 4 : Opérations causant un débordement.
+Réponses correctes : A, C, E
+Explication :
+
+A. 70 + 70 sur 8 bits signé dépasse +127.
+C. -1 + (-128) sur 8 bits signé sort de l’intervalle [-128, 127].
+G
+D
+G. Résultat sur 16 bits non signé, 0x1234 * 0x10
+
+0x1234 = 4660, multiplication par 16 = 74560
+74560 > 65535, donc débordement.
+Correct.
+
+
+***************************************
+
+***************************************
+
+3. Instructions et code machine RISC-V
+
+Question 5 : .word 0x10 en RISC-V
+Réponse correcte : D - Réserve 4 octets, le dernier initialisé à 0x10 (hexa) et les autres à 0
+Explication :
+
+.word alloue 4 octets.
+0x10 est stocké dans le dernier octet en little-endian.
+
+I. .word 0x10
+
+Même interprétation : 4 octets, le premier 0x10, les autres 0.
+Aussi correcte.
+D et I sont valides, donc selon le corrigé officiel, la réponse attendue est probablement I.
+
+***************************************
+
+Question 6 : Désassemblage de B3 C4 65 02
+Réponse correcte : A - div t1, a1, s1
+Explication :
+
+L’opcode et les registres correspondent à l’instruction div qui effectue la division entre a1 et s1.
+Question 6 : La réponse est A ou H ?
+A. div t1, a1, s1
+
+Désassemblage correct :
+Opcode et fonctions correspondent à div.
+Correct.
+H. div s1, a1, t1
+
+Mauvais ordre des registres.
+Incorrect.
+A est correcte, pas H.
+
+
+4. Programme mystère
+
+++ details : Décomposition du code machine
+RISC-V est une architecture little-endian, donc on lit l’instruction en inversant les octets :
+
+
+02 65 C4 B3
+Convertissons en binaire pour voir la structure :
+
+yaml
+
+0000 0010 0110 0101 1100 0100 1011 0011
+La structure d'une instruction R-type (comme div) est :
+
+lua
+Copier
+Modifier
+| funct7 | rs2  | rs1  | funct3 | rd  | opcode  |
+|--------|------|------|--------|-----|---------|
+| 0110000| 01011| 01000| 100    | 1011| 0110011 |
+On obtient :
+
+opcode 0110011 → Instruction R-type
+funct3 100 → DIV
+rd (destination) : 1011 (t1)
+rs1 (source 1) : 01000 (a1)
+rs2 (source 2) : 01011 (s1)
+L'instruction correspond exactement à :
+
+css
+Copier
+Modifier
+div t1, a1, s1
+Réponse correcte : A
+
+Pourquoi H est fausse ?
+
+div s1, a1, t1 implique rs1 = t1 et rs2 = a1, ce qui est incorrect.
+
+***************************************
+question 7 :
+
+ Réponses correctes : B, D, N, O
+
+B. .space 8 →  Réserve 8 octets.
+D. .dword 64 →  Réserve 8 octets.
+N. .dword 0 →  Réserve 8 octets.
+O. .space 64 →  Réserve 64 octets, donc trop grand.
+G et i
+***************************************
+
+Question 8 : Affichage pour entrée (0, 10)
+Réponse correcte : A - 0
+Explication :
+
+Le programme additionne s1 un nombre s0 fois.
+s0 = 0, donc la boucle ne tourne pas, s2 reste 0.
+
+
+***************************************
+
+
+Question 9 : Affichage pour entrée (2, 3)
+Réponse correcte : G - 6
+Explication :
+
+La boucle s’exécute s0 = 2 fois.
+s2 = 3 + 3 = 6.
+
+
+***************************************
+
+Question 10 : Premier caractère affiché pour (2000, 4000)
+Réponse correcte : i - 8
+Explication :
+
+s2 = 4000 * 2000 = 8 000 000.
+Le premier caractère est le premier chiffre de 8 000 000, soit '8'.
+
+
+***************************************
+
+5. Modes d’adressage
+
+Question 11 : Valeur finale de s0
+Réponse correcte : o - 0x0000000010010000
+
+Explication :
+
+la s0, cafe charge l’adresse de cafe qui est 0x10010000.
+s0 stocke l’adresse mémoire complète de cafe, donc 0x10010000.
+En RISC-V 64 bits, les adresses sont sur 64 bits, donc on place l’adresse dans la partie haute du registre.
+Donc, la réponse correcte est J : 0x1001000000000000 et non pas O : 0x0000000010010000 qui ne correspond pas à l’emplacement réel en mémoire.
+
+ Réponse correcte : J
+
+***************************************
+
+
+Question 12 : Valeur finale de s1
+Réponse correcte : L - 0x000000000000CAFE
+Explication :
+
+lw s1, cafe charge le mot mémoire à l’adresse cafe, qui est 0xCAFE.
+
+
+***************************************
+
+6. Programmation
+
+
+Question 16 : Initialisation de s3
+Réponse correcte : E - li s3, 1
+Explication :
+
+s3 sert à calculer un produit. Il faut l'initialiser à 1.
+
+
+***************************************
+Choix entre K (0x0000000043414645) et P (0x000000004143FEFE)
+
+L’instruction concernée est :
+
+assembly
+Copier
+Modifier
+lwu s4, 4(s0)
+Sachant que s0 pointe sur cafe (0x10010000), regardons ce qui est stocké en mémoire :
+
+arduino
+Copier
+Modifier
+Adresse    Contenu mémoire
+--------------------------
+0x10010000  0x0000CAFE  (.word)
+0x10010004  0xFE        (.byte)
+0x10010005  0xFE        (.byte)
+0x10010006  0x43 ('C')
+0x10010007  0x41 ('A')
+0x10010008  0x46 ('F')
+0x10010009  0x45 ('E')
+On exécute lwu s4, 4(s0), ce qui signifie :
+
+Charger 4 octets à partir de 0x10010004
+Little-endian, donc les octets sont lus dans l’ordre inversé
+Lecture mémoire :
+
+rust
+Copier
+Modifier
+Adresse    Contenu
+0x10010004 -> 0xFE
+0x10010005 -> 0xFE
+0x10010006 -> 0x43 ('C')
+0x10010007 -> 0x41 ('A')
+Donc, s4 = 0x4143FEFE (Réponse P).
+
+K : (0x43414645) est incorrect car il inclut 0x46 45 (début de "FE").
+la Réponse correcte : P - 0x000000004143FEFE.
+
+
+
+***************************************
+
+
+Question 17 : Condition d’arrêt de boucle
+Réponse correcte : E - bgtz s1, loop
+Explication :
+
+bgtz (branch if greater than zero) permet de continuer la boucle tant que s1 > 0.
+
+(prof : I blez s1, end)
+E. bgtz s1, loop
+
+s1 est le compteur du tableau.
+Continue tant que s1 > 0.
+ Correct.
+I. blez s1, end
+
+Bloque la boucle si s1 ≤ 0 (inversé).
+
+
+***************************************
+
+Question 18 : Chargement d’un élément du tableau
+Réponse correcte : M - lw s4, 0(s0)
+Explication :
+
+Charge l’élément actuel du tableau pointé par s0.
+
+
+***************************************
+
+
+Question 19 : Calcul de la somme et du produit
+Réponse correcte : F - add s2, s2, s4 + mul s3, s3, s4
+Explication :
+
+s2 = s2 + s4 (somme).
+s3 = s3 * s4 (produit).
+
+
+
+***************************************
+
+Question 20 : Avancement des pointeurs
+Réponse correcte : I - addi s0, s0, 4 + addi s1, s1, -1
+Explication :
+
+s0 doit avancer de 4 octets (taille d’un word).
+s1 doit diminuer de 1 pour suivre le décompte.         

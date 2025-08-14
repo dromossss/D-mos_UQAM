@@ -1,0 +1,16 @@
+Voici un texte qui contient des mots avec une ou plusieurs occurrences, les doublons.
+Dans certains cas les mots auront des suffixes, donc le traitement de la longueur
+exigera une attention. Les mots existent seulement dans le texte alors que la table
+ne contiendra que les positions, longueurs et apparitions, ainsi toutes marques de
+punctuation usuelles, dont les blancs, les retours de chariot, les tabulations sont
+similaires, enfin tout sauf les lettres. Ce texte sera facile pour les as du code
+avec quelques cas difficiles afin de compliquer la vie un tant soit peu aux prudents
+et beaucoup plus aux retardataires. Donc ce qui blessera autant minou que pitou sera
+le traitement de la longueur des mots qui est un cas particulier lorsque as est plus
+long que a donc la routine de comparaison retourne 0 et on doit placer as plus loin
+mais que faire avec un et une comme dans la ligne initiale. Puis vient le cas plus
+facile, identifier les limites des mots surtout quand ces limites forment des suites
+comme pour les fins de ligne. Le plus simple pour commencer est de mettre cette string
+dans le data pour finaliser le tp avec la ligne de commande et la lecture depuis un
+fichier. Nous croyons que ce court texte sans accent, avec humour et sagesse, sans
+accent vous aidera.
